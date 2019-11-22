@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk 
+from tkinter import filedialog
 import os
 import re
 
@@ -15,13 +16,20 @@ class App:
         Label(marco, text='Ruta de la carpeta contenedora:                                                              ').grid(
             row=0, column=0)
         self.ruta = Entry(marco)
+        self.ruta.insert(END, 'C:\\Users\\Kaze\\Downloads')
         self.ruta.focus()
         self.ruta.grid(row=1,column=0, sticky=W + E)
+        ttk.Button(marco, text='Buscar', command=self.buscar_carpeta).grid(
+            row=1, column=1)
         ttk.Button(marco, text='Renombrar', command=self.ejecutar).grid(
             row=2, column=0, columnspan=2, sticky=W + E)
         self.lista = Listbox(marco)
-        self.lista.grid(row=4, column=0, sticky=W + E)
+        self.lista.grid(row=4, column=0, columnspan=2, sticky=W + E)
 
+    def buscar_carpeta(self):
+        ruta_carpeta = filedialog.askdirectory()
+        self.ruta.delete(0, END)
+        self.ruta.insert(END, ruta_carpeta)
 
     def renombrar(self, nombre_archivo):
         #patrones en regular expressions
@@ -85,12 +93,18 @@ class App:
                         self.lista.insert(END, 'se renombró a:')
                         self.lista.insert(END, archivos_renombrados[i])     
                 self.lista.insert(END, 'Trabajo completado.')
-                self.lista.insert(END, 'se renombraron un total de {} archivos.'.format(renombrados))
+
+                if renombrados == 0:
+                    self.lista.insert(END, 'No se encontraron archivos para renombrar.')
+                elif renombrados == 1:
+                    self.lista.insert(END, 'Se renombraró {} archivo.'.format(renombrados))
+                else:
+                    self.lista.insert(END, 'Se renombraron {} archivos.'.format(renombrados))
             except:
-                self.lista.insert(END, 'ocurrió un error al intentar renombrar los archivos')
+                self.lista.insert(END, 'Ocurrió un error al intentar renombrar los archivos.')
         else:
             #si la lista está vacía, avisar de que la carpeta está vacía y no hacer nada.
-            self.lista.insert(END, 'La carpeta está vacía')
+            self.lista.insert(END, 'La carpeta está vacía.')
     
     
 if __name__ == '__main__':
