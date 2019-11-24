@@ -97,7 +97,7 @@ class App:
                 if renombrados == 0:
                     self.lista.insert(END, 'No se encontraron archivos para renombrar.')
                 elif renombrados == 1:
-                    self.lista.insert(END, 'Se renombraró {} archivo.'.format(renombrados))
+                    self.lista.insert(END, 'Se renombró {} archivo.'.format(renombrados))
                 else:
                     self.lista.insert(END, 'Se renombraron {} archivos.'.format(renombrados))
             except:
